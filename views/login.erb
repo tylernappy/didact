@@ -1,0 +1,12 @@
+<h1>Login</h1>
+<% if flash[:error] %>
+    <p class="lead"><%= flash[:error] %></p>
+<% end %>
+<form action"/login" method="post">
+Email:<br>
+<input type="text" name="email"><br>
+Password:<br>
+<input type="password" name="password"><br><br>
+<input type="submit" value="Login">
+</form><br>
+Don't have an account? <a href="/signup">Signup here</a>

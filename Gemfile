@@ -13,6 +13,7 @@ gem "sinatra-flash"
 gem "pg"
 gem "bcrypt"
 gem "openssl"
+gem "redcarpet"
 
 group :development do
   gem "byebug"

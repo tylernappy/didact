@@ -1,0 +1,11 @@
+<h1>New Task</h1>
+<form action="/task" id="form" method="post">
+    <input type="hidden" name="integration_id" value="<%= @integration_id %>">
+    Name:<br>
+    <input type="text" name="name"><br>
+    Due date:<br>
+    <input type="datetime-local" name="due_date"><br>
+    Markdown:<br>
+    <textarea rows="4" cols="50" name="markdown" form="form"></textarea><br><br>
+    <input type="submit" value="Create Integration">
+</form><br>

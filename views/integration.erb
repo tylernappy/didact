@@ -1,0 +1,36 @@
+<nav id="navigation">
+  <ul id="topnav" style="display: block;">
+      <li><a href="#top">Integration for <%= @integration.name %></a></li>
+      <li><a href="#top"><%= @integration.due_date.strftime("Due on %m/%d/%Y at %I:%M%p")  %></a></li>
+      <% @tasks.each do |task| %>
+        <li><a href="#<%= task.name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '') %>"><%= task.name %></a></li>
+      <% end %>
+  </ul>
+</nav>
+
+<% @tasks.each do |task|  %>
+    <div class="row">
+        <div class="offset-sm-2 col-sm-10">
+            <div class="card" style="border-color: #ededef;">
+                <h1 id="<%= task.name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '') %>"><u><%= task.name %></u></h1>
+                <a href="/">Edit</a>
+                <% if task.is_complete %>
+                    <p>Task completed &#x2705;</p>
+                <% else %>
+                    <p>Task not completed &#x274C;</p>
+                <% end %>
+                <p><%= task.due_date.strftime("Due on %m/%d/%Y at %I:%M%p") %></p>
+                <div class="card" style="background-color: #ededef; border-color: #ededef;">
+                    <%= @@redcarpet.render(task.markdown) %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+<% end %>
+
+<div class="row">
+    <div class="offset-sm-2 col-sm-10">
+        <a href="/user/<%= @user.id %>/integration/<%= @integration.id %>/new_task" class="btn btn-primary">+ Task</a>
+    </div>
+</div><br><br>

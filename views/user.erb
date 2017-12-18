@@ -1,1 +1,11 @@
 <h1>User</h1>
+<a class="btn btn-primary" href="/new_integration">Create new integration</a>
+<% @integrations.each do |integration| %>
+    <div class="row">
+        <div class="col-sm-6">
+            <p>
+                <a href="/user/<%= @user.id %>/integration/<%= integration.id %>"><%= integration.name %></a><%= integration.due_date.strftime("Due on %m/%d/%Y at %I:%M%p") %>
+            </p>
+        </div>
+    </div>
+<% end %>

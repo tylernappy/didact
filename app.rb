@@ -3,13 +3,20 @@ require 'dotenv'
 require 'bcrypt'
 require 'sinatra/activerecord'
 require './model/user'
+require './model/Integration'
+require './model/task'
+require './model/comment'
 require 'openssl'
 require 'json'
 require 'byebug'
 require 'sinatra/flash'
 require 'redcarpet'
+require 'time'
 
 Dotenv.load
+
+@@redcarpet = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true, hard_wrap: true, prettify: true, fenced_code_blocks: true)
+# @@redcarpet = Redcarpet::Render::HTML.new(hard_wrap: true, prettify: true)
 
 class Didact < Sinatra::Base
     enable :sessions
@@ -31,8 +38,41 @@ class Didact < Sinatra::Base
     end
 
     get '/user/:user_id' do
+        @integrations = @user.integrations
+
         @partial = :user
         erb :base
+    end
+
+    get '/new_integration' do
+        @partial = :new_integration
+        erb :base
+    end
+
+    post '/integration' do
+        @integration  = @user.integrations.create!(params.except(:captures))
+        redirect "/user/#{@user.id}/integration/#{@integration.id}"
+    end
+
+    get '/user/:user_id/integration/:integration_id' do
+        @integration = Integration.find(params[:integration_id])
+        @tasks = @integration.tasks.order(:due_date)
+
+        @partial = :integration
+        erb :base
+    end
+
+    get '/user/:user_id/integration/:integration_id/new_task' do
+        @integration_id = params[:integration_id]
+
+        @partial = :new_task
+        erb :base
+    end
+
+    post '/task' do
+        integration = @user.integrations.find_by_id(params[:integration_id].to_i)
+        task = integration.tasks.create(params.except(:captures))
+        redirect "/user/#{@user.id}/integration/#{integration.id}"
     end
 
     ## Login, Signup, Logout

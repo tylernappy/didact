@@ -18,8 +18,9 @@
     <script src="/js/smooth-scroll.min.js"></script>
 </head>
 <body>
-    <%= erb :topnav %>
-    <%= erb @partial %>
+    <!-- <%= erb :topnav %>
+    <%= erb @partial %> -->
+    {{{@body}}}
     <script>
       smoothScroll.init({
         selector: 'a[href*="#"]', // Selector for links (must be a valid CSS selector)
